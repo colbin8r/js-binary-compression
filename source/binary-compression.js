@@ -41,6 +41,7 @@ var BinaryCompression = {
 		var i = 0;
 		while (true) {
 			flag = integer % 2;
+			//console.log('flag: ' + flag);
 
 			if (flag == 1) {
 				value = true;
@@ -48,13 +49,17 @@ var BinaryCompression = {
 				value = false;
 			}
 			result[i] = value;
-
-			integer /= 2;
+			
+			integer -= flag;
+   			integer /= 2;
+      		//console.log('integer: ' + integer);
 			i++;
 			
 			if (integer == 1) {
 				result[i] = true;
+				//console.log('added final "true" to the result stack"');
 			} else if (integer < 1) {
+			    //console.log('exiting because integer (' + integer + ') < 1');
 				return result;
 			}
 		}
