@@ -8,24 +8,25 @@ var BinaryCompression = {
 	 * @param bools Array of booleans
 	 */
 	compress: function(bools) {
-		var result = 0;
-		var positionValue = 1;
-		var length = bools.length;
+		var result = 0; // stores the integer result
+		var positionValue = 1; // holds the value of the current position (e.g. 1, 2, 4, 8, etc.)
+		var length = bools.length; // how many bools to store
 		
-		for (var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) { // loop through the bools
 		
+			// convert the bools from true to 1 and false to 0
 			if (bools[i] == true) {
 				value = 1;
 			} else {
 				value = 0;
 			}
 			
-			result += value * positionValue;
+			result += value * positionValue; // add the result to the integer
 			
-			positionValue *= 2;
+			positionValue *= 2; // increase the posiiton value
 		}
 		
-		return result;
+		return result; // we are done. return the result
 	},
 	
 	/* @package binary-compression
@@ -35,32 +36,33 @@ var BinaryCompression = {
 	 * @param bools Array of booleans
 	 */
 	uncompress: function(integer) {
-		var result = [];
-		var flag = 0;
-		var value = false;
-		var i = 0;
-		while (true) {
-			flag = integer % 2;
-			//console.log('flag: ' + flag);
-
+	
+		var result = []; // holds the array of boolean values
+		var flag = 0; // holds the current integer representation of the boolean
+		var value = false; // hoolds the current boolean representation of the booleanl
+		var i = 0; // counter used to store results in stack
+		
+		while (true) { // infinite loop
+			flag = integer % 2; // get the next flag
+			
+			// convert the flag to boolean
 			if (flag == 1) {
 				value = true;
 			} else {
 				value = false;
 			}
-			result[i] = value;
 			
-			integer -= flag;
-   			integer /= 2;
-      		//console.log('integer: ' + integer);
-			i++;
+			result[i] = value; // add the flag to the result stack
 			
-			if (integer == 1) {
-				result[i] = true;
-				//console.log('added final "true" to the result stack"');
-			} else if (integer < 1) {
-			    //console.log('exiting because integer (' + integer + ') < 1');
-				return result;
+			integer -= flag; // subtract the flag from the integer
+   			integer /= 2; // divide the integer by 2
+			i++; // increase the counter
+			
+			// we are done if these pass
+			if (integer == 1) { // if integer is 1 the last flag is true
+				result[i] = true; // add true to the result stack
+			} else if (integer < 1) { // if less than 1
+				return result; // we are done. return the result
 			}
 		}
 	}
